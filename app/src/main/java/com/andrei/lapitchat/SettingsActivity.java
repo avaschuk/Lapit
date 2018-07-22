@@ -1,8 +1,11 @@
 package com.andrei.lapitchat;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +29,8 @@ public class SettingsActivity extends AppCompatActivity {
     private CircleImageView mImage;
     private TextView mName;
     private TextView mStatus;
+    private Button mStatusBtn;
+    private Button mImageBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,8 @@ public class SettingsActivity extends AppCompatActivity {
         mImage = findViewById(R.id.settings_image);
         mName = findViewById(R.id.settings_name);
         mStatus = findViewById(R.id.settings_status);
+        mStatusBtn = findViewById(R.id.settings_status_btn);
+        mImageBtn = findViewById(R.id.settings_image_btn);
 
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -54,6 +61,8 @@ public class SettingsActivity extends AppCompatActivity {
 
                 mName.setText(name);
                 mStatus.setText(status);
+                System.out.println("dataSnapshot.toString()");
+                System.out.println(dataSnapshot.toString());
 
 
             }
@@ -61,6 +70,16 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+        mStatusBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String status_value = mStatus.getText().toString();
+                Intent statusIntent = new Intent(getApplicationContext(), StatusActivity.class);
+                statusIntent.putExtra("status_value", status_value);
+                startActivity(statusIntent);
             }
         });
     }
