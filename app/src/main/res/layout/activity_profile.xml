@@ -53,7 +53,7 @@
         android:id="@+id/profile_send_req_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button2"
+        android:layout_above="@+id/profile_decline_req_btn"
         android:layout_alignParentBottom="false"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="12dp"
@@ -62,7 +62,7 @@
         android:textColor="@android:color/white" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/profile_decline_req_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
