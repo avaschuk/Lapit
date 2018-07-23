@@ -38,6 +38,19 @@
         android:textColor="@android:color/white" />
 
     <Button
+        android:id="@+id/settings_image_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/settings_status_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@android:color/white"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:text="Change Image"
+        android:textColor="@color/colorPrimary" />
+
+    <Button
         android:id="@+id/settings_status_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,18 +62,5 @@
         android:paddingRight="20dp"
         android:text="Change Status"
         android:textColor="@android:color/white" />
-
-    <Button
-        android:id="@+id/settings_image_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/settings_status_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="@android:color/white"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
-        android:text="Change Image"
-        android:textColor="@color/colorPrimary"/>
 
 </RelativeLayout>
