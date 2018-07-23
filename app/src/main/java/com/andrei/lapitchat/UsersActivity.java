@@ -1,5 +1,6 @@
 package com.andrei.lapitchat;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -56,10 +57,24 @@ public class UsersActivity extends AppCompatActivity {
 
         adapter = new FirebaseRecyclerAdapter<Users, UsersViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull UsersViewHolder holder, int position, @NonNull Users model) {
-                holder.setName(model.getName());
-                holder.setStatus(model.getStatus());
-                holder.setImage(model.getImage());
+            protected void onBindViewHolder(@NonNull UsersViewHolder usersViewHolder, int position, @NonNull Users model) {
+                usersViewHolder.setName(model.getName());
+                usersViewHolder.setStatus(model.getStatus());
+                usersViewHolder.setImage(model.getThumb_image());
+
+                final String user_id = getRef(position).getKey();
+
+
+                usersViewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent profileIntent = new Intent(UsersActivity.this, ProfileActivity.class);
+                        profileIntent.putExtra("user_id", user_id);
+                        startActivity(profileIntent);
+
+                    }
+                });
             }
 
             @NonNull
@@ -103,7 +118,7 @@ public class UsersActivity extends AppCompatActivity {
 
         public void setImage(String imageUrl) {
             CircleImageView userSingleImage = mView.findViewById(R.id.user_single_image);
-            Picasso.get().load(imageUrl).into(userSingleImage);
+            Picasso.get().load(imageUrl).placeholder(R.mipmap.default_avatar).into(userSingleImage);
         }
 
     }
