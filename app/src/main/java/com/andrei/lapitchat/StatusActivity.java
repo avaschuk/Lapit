@@ -64,6 +64,7 @@ public class StatusActivity extends AppCompatActivity {
 
                 String status = mStatus.getEditText().getText().toString();
 
+
                 mDatabase.child("status").setValue(status).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
