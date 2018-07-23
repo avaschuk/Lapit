@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "732683594611-oqucgv2ec1e8nirltmj97elsrlqqa4qb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.andrei.lapitchat",
+            "certificate_hash": "5b3da12c204a1130d1319f0e6fa97b52f636ceaf"
+          }
+        },
+        {
           "client_id": "732683594611-kt1hkenbrkhvtgf0018fcbgdnarm3c33.apps.googleusercontent.com",
           "client_type": 3
         }
