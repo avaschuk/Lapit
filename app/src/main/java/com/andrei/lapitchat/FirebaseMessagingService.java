@@ -1,8 +1,10 @@
 package com.andrei.lapitchat;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
 
 import com.google.firebase.messaging.RemoteMessage;
@@ -28,7 +30,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             System.out.println(notificationMessage);
 
 
-            /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
 
                 String CHANNEL_ID = "my_channel_01";
@@ -43,7 +45,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
                 mChannel.setShowBadge(false);
                 mNotifyMgr.createNotificationChannel(mChannel);
-            }*/
+            }
 
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this, NOTIFICATION_ID)

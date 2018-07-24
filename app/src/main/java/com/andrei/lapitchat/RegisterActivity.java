@@ -99,45 +99,37 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                             if (currentUser != null) {
-                                String uid = currentUser.getUid();
-                                //mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
-                                HashMap<String, String> userMap = new HashMap<>();
-                                userMap.put("name", displayName);
-                                userMap.put("status", "Hi there I'm using Lapit Chat App.");
-                                userMap.put("image", "default");
-                                userMap.put("thump_image", "default");
 
-                                mUserDatabase.child(uid).setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            FirebaseInstanceId.getInstance().getInstanceId()
-                                                    .addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
-                                                        @Override
-                                                        public void onSuccess(InstanceIdResult instanceIdResult) {
-                                                            String deviceToken = instanceIdResult.getToken();
-                                                            String current_user_id = mAuth.getCurrentUser().getUid();
+                                FirebaseInstanceId.getInstance().getInstanceId()
+                                        .addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                                            @Override
+                                            public void onSuccess(InstanceIdResult instanceIdResult) {
+                                                String deviceToken = instanceIdResult.getToken();
+                                                String current_user_id = mAuth.getCurrentUser().getUid();
+                                                //mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
+                                                HashMap<String, String> userMap = new HashMap<>();
+                                                userMap.put("name", displayName);
+                                                userMap.put("status", "Hi there I'm using Lapit Chat App.");
+                                                userMap.put("image", "default");
+                                                userMap.put("thump_image", "default");
+                                                userMap.put("device_token", deviceToken);
 
-                                                            mUserDatabase.child(current_user_id).child("device_token").setValue(deviceToken)
-                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                        @Override
-                                                                        public void onSuccess(Void aVoid) {
-                                                                            mRegProgress.dismiss();
-                                                                            // Sign in success, update UI with the signed-in user's information
-                                                                            Log.d(TAG, "createUserWithEmail:success");
-                                                                            Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
-                                                                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                                            startActivity(mainIntent);
-                                                                            finish();
-                                                                        }
-                                                                    });
+                                                mUserDatabase.child(current_user_id).setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            mRegProgress.dismiss();
+                                                            // Sign in success, update UI with the signed-in user's information
+                                                            Log.d(TAG, "createUserWithEmail:success");
+                                                            Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
+                                                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                            startActivity(mainIntent);
+                                                            finish();
                                                         }
-                                                    });
-                                        }
-                                    }
-                                });
-
-
+                                                    }
+                                                });
+                                            }
+                                        });
                             }
 
                         } else {
