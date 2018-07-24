@@ -46,7 +46,8 @@ public class UsersActivity extends AppCompatActivity {
         mUsersList.setLayoutManager(new LinearLayoutManager(this));
 
         mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-        Query query = mUsersDatabase.orderByChild("name");
+        Query query = mUsersDatabase
+                .orderByChild("name");
 
         FirebaseRecyclerOptions<Users> options =
                 new FirebaseRecyclerOptions.Builder<Users>()
@@ -78,8 +79,10 @@ public class UsersActivity extends AppCompatActivity {
             @NonNull
             @Override
             public UsersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.users_single_layout, parent, false);
+
                 return new UsersViewHolder(view);
             }
         };
