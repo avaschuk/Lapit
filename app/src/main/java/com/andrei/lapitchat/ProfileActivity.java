@@ -91,15 +91,18 @@ public class ProfileActivity extends AppCompatActivity {
                 mFriendReqDatabase.child(mCurrentUser.getUid()).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        System.out.println("ON DATA CHANGE 1");
                         if (dataSnapshot.hasChild(user_id)) {
 
                             String req_type = dataSnapshot.child(user_id).child("request_type").getValue().toString();
                             if (req_type.equals("received")) {
+                                System.out.println("IF 1");
 
                                 mCurrent_state = "req_received";
                                 mProfileSendReqBtn.setText("Accept Friend Request");
 
                             } else if (req_type.equals("sent")) {
+                                System.out.println("ELSE 1");
 
                                 mCurrent_state = "req_sent";
                                 mProfileSendReqBtn.setText("Cancel Friend Request");
@@ -111,10 +114,13 @@ public class ProfileActivity extends AppCompatActivity {
                             mFriendDatabase.child(mCurrentUser.getUid()).addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    System.out.println("ON DATA CHANGE 2");
                                     if (dataSnapshot.hasChild(user_id)) {
+                                        System.out.println("IF 1");
                                         mCurrent_state = "friends";
                                         mProfileSendReqBtn.setText("Remove Friend");
                                     } else {
+                                        System.out.println("ELSE 2");
                                         mCurrent_state = "not_friends";
                                         System.out.println("ELSE");
                                         mProfileSendReqBtn.setText("Send Friend Request");
@@ -129,11 +135,15 @@ public class ProfileActivity extends AppCompatActivity {
 
                         }
 
+                        System.out.println("mCurrent_state");
+                        System.out.println(mCurrent_state);
+
                         if (mCurrent_state.equals("req_received")) {
                             mProfileDeclineReqBtn.setVisibility(View.VISIBLE);
                         } else {
                             mProfileDeclineReqBtn.setVisibility(View.INVISIBLE);
                         }
+                        System.out.println("BEFORE DISMISS");
                         mProgressDialog.dismiss();
                     }
 
