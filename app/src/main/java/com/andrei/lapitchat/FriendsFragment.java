@@ -17,6 +17,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -26,15 +27,16 @@ public class FriendsFragment extends Fragment {
     private RecyclerView mFriendsList;
 
     private DatabaseReference mFriendsDatabase;
+    private DatabaseReference mUsersDatabase;
+
     private FirebaseAuth mAuth;
 
     private String mCurrent_user_id;
     private View mMainView;
 
     public static ArrayList<Friends> friendsArrayList;
+    public static ArrayList<String> list_user_friend_key;
     private FriendsAdapter friendsAdapter;
-
-//    private FirebaseRecyclerAdapter<Friends, FriendsViewHolder> adapter;
 
     public FriendsFragment() {
         // Required empty public constructor
@@ -51,10 +53,49 @@ public class FriendsFragment extends Fragment {
         mFriendsDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String date = dataSnapshot.child("date").getValue().toString();
-                Friends friends = new Friends(date);
-                friendsArrayList.add(friends);
-                friendsAdapter.notifyDataSetChanged();
+                final String date = dataSnapshot.child("date").getValue().toString();
+
+                final String list_user_id= dataSnapshot.getKey();
+
+                mUsersDatabase.child(list_user_id).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        String userName = dataSnapshot.child("name").getValue().toString();
+                        String userStatus = dataSnapshot.child("status").getValue().toString();
+                        String userThumb = dataSnapshot.hasChild("thumb_image") ? dataSnapshot.child("thumb_image").getValue().toString() : "default";
+                        boolean userOnline = dataSnapshot.hasChild("online") ? (boolean) dataSnapshot.child("online").getValue() : false;
+
+                        System.out.println("list_user_friend_key");
+                        System.out.println(list_user_friend_key);
+                        System.out.println("dataSnapshot.getKey()");
+                        System.out.println(dataSnapshot.getKey());
+
+
+                        if (list_user_friend_key.contains(dataSnapshot.getKey())) {
+                            int position = list_user_friend_key.indexOf(dataSnapshot.getKey().toString());
+                            System.out.println("position");
+                            System.out.println(position);
+                            System.out.println("friendsArrayList.get(position)");
+                            System.out.println(friendsArrayList.get(position));
+                            friendsArrayList.get(position).setOnline(userOnline);
+                            System.out.println("friendsArrayList.get(position)");
+                            System.out.println(friendsArrayList.get(position));
+                            friendsAdapter.notifyDataSetChanged();
+                        } else {
+                            list_user_friend_key.add(dataSnapshot.getKey().toString());
+                            Friends friends = new Friends(date, userName, userStatus, userThumb, userOnline);
+                            friendsArrayList.add(friends);
+                            friendsAdapter.notifyDataSetChanged();
+                        }
+                    }
+
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
 
             @Override
@@ -86,8 +127,12 @@ public class FriendsFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         mCurrent_user_id = mAuth.getCurrentUser().getUid();
         mFriendsDatabase = FirebaseDatabase.getInstance().getReference().child("Friends").child(mCurrent_user_id);
+        mFriendsDatabase.keepSynced(true);
+        mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+        mUsersDatabase.keepSynced(true);
 
         friendsArrayList = new ArrayList<>();
+        list_user_friend_key = new ArrayList<>();
         friendsAdapter = new FriendsAdapter(getContext(), friendsArrayList);
 
         mFriendsList.setHasFixedSize(true);
