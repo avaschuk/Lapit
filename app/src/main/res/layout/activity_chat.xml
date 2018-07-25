@@ -12,14 +12,19 @@
         android:id="@+id/chat_toolbar"
         layout="@layout/app_bar_layout" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/chat_messages_list"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/message_swipe_layout"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@id/chat_toolbar"
-        android:layout_above="@id/linearLayout"
-        android:layout_height="match_parent">
+        android:layout_above="@id/linearLayout">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/chat_messages_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
