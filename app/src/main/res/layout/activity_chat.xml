@@ -34,19 +34,19 @@
             app:srcCompat="@drawable/ic_add_black_24dp" />
 
         <EditText
-            android:id="@+id/textView3"
+            android:id="@+id/chat_message_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="8"
             android:background="@android:color/white"
+            android:hint="Enter Message..."
             android:paddingBottom="12dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingTop="14dp"
-            android:hint="Enter Message..."/>
+            android:paddingTop="14dp" />
 
         <ImageButton
-            android:id="@+id/imageView"
+            android:id="@+id/chat_send_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

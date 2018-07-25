@@ -79,8 +79,6 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            mLoginProgress.dismiss();
-
                             FirebaseInstanceId.getInstance().getInstanceId()
                                     .addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
                                         @Override
@@ -96,6 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                                                             main_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                             startActivity(main_intent);
                                                             finish();
+                                                            mLoginProgress.dismiss();
                                                         }
                                                     });
                                         }
