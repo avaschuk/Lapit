@@ -54,6 +54,8 @@ public class ProfileActivity extends AppCompatActivity {
         System.out.println(user_id);
 
         mRootRef = FirebaseDatabase.getInstance().getReference();
+        System.out.println("user_id");
+        System.out.println(user_id);
 
         mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
         mFriendReqDatabase = FirebaseDatabase.getInstance().getReference().child("Friend_req");

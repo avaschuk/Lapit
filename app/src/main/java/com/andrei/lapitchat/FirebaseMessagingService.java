@@ -17,6 +17,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         String NOTIFICATION_ID = "my_channel_01";
+        System.out.println("FirebaseMessagingService");
 
         if (remoteMessage.getData().size() > 0) {
 
@@ -26,8 +27,12 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             String click_action = remoteMessage.getNotification().getClickAction();
             String from_user_id = remoteMessage.getData().get("from_user_id");
 
+            System.out.println("notificationTitle");
             System.out.println(notificationTitle);
+            System.out.println("notificationMessage");
             System.out.println(notificationMessage);
+            System.out.println("from_user_id");
+            System.out.println(from_user_id);
 
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {

@@ -10,17 +10,17 @@ public class Friends {
 
     private String thumb_image;
 
-    private boolean isOnline;
+    private String online;
 
     public Friends() {
     }
 
-    public Friends(String date, String userName, String status, String thumb_image, boolean isOnline) {
+    public Friends(String date, String userName, String status, String thumb_image, String online) {
         this.date = date;
         this.userName = userName;
         this.status = status;
         this.thumb_image = thumb_image;
-        this.isOnline = isOnline;
+        this.online = online;
     }
 
     public String getDate() {
@@ -55,12 +55,12 @@ public class Friends {
         this.thumb_image = thumb_image;
     }
 
-    public boolean isOnline() {
-        return isOnline;
+    public String getOnline() {
+        return online;
     }
 
-    public void setOnline(boolean online) {
-        isOnline = online;
+    public void setOnline(String online) {
+        this.online = online;
     }
 
     @Override
@@ -70,7 +70,7 @@ public class Friends {
                 ", userName='" + userName + '\'' +
                 ", status='" + status + '\'' +
                 ", thumb_image='" + thumb_image + '\'' +
-                ", isOnline=" + isOnline +
+                ", online='" + online + '\'' +
                 '}';
     }
 }
