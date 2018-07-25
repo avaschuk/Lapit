@@ -15,6 +15,13 @@ public class Friends {
     public Friends() {
     }
 
+    public Friends(String date, String userName, String thumb_image, String online) {
+        this.date = date;
+        this.userName = userName;
+        this.thumb_image = thumb_image;
+        this.online = online;
+    }
+
     public Friends(String date, String userName, String status, String thumb_image, String online) {
         this.date = date;
         this.userName = userName;
