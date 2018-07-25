@@ -221,6 +221,7 @@ public class ChatActivity extends AppCompatActivity {
             messageMap.put("seen", false);
             messageMap.put("type", "text");
             messageMap.put("time", ServerValue.TIMESTAMP);
+            messageMap.put("from", mCurrentUserId);
 
             Map messageUserMap = new HashMap();
             messageUserMap.put(current_user_ref + "/" + push_id, messageMap);
@@ -231,6 +232,8 @@ public class ChatActivity extends AppCompatActivity {
                 public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
                     if (databaseError != null) {
                         Log.d("CHAT_LOG", databaseError.getMessage());
+                    } else {
+                        mChatMessageView.setText("");
                     }
                 }
             });

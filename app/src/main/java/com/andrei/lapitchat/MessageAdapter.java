@@ -1,6 +1,7 @@
 package com.andrei.lapitchat;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -18,13 +20,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ItemHold
 
     Context context;
     private ArrayList<Messages> mMessageList;
+    private FirebaseAuth mAuth;
 
     public MessageAdapter(Context context, ArrayList<Messages> mMessageList) {
+        this.mAuth = FirebaseAuth.getInstance();
         this.context = context;
         this.mMessageList = mMessageList;
     }
 
     public MessageAdapter(ArrayList<Messages> mMessageList) {
+        this.mAuth = FirebaseAuth.getInstance();
         this.mMessageList = mMessageList;
     }
 
@@ -38,7 +43,21 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ItemHold
 
     @Override
     public void onBindViewHolder(@NonNull ItemHolder holder, int position) {
+        String current_user_id = mAuth.getCurrentUser().getUid();
+
         Messages messages = mMessageList.get(position);
+        String from_user = messages.getFrom();
+
+        if (from_user.equals(current_user_id)) {
+
+            holder.messageText.setBackgroundColor(Color.WHITE);
+            holder.messageText.setTextColor(Color.BLACK);
+
+        } else {
+
+            holder.messageText.setBackgroundResource(R.drawable.message_text_background);
+            holder.messageText.setTextColor(Color.WHITE);
+        }
 
         holder.setMessageText(messages.getMessage());
     }

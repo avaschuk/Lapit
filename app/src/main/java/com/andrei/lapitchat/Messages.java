@@ -2,16 +2,17 @@ package com.andrei.lapitchat;
 
 public class Messages {
 
-    private String message, type;
+    private String message, type, from;
     private boolean seen;
     private long time;
 
     public Messages() {
     }
 
-    public Messages(String message, String type, boolean seen, long time) {
+    public Messages(String message, String type, String from, boolean seen, long time) {
         this.message = message;
         this.type = type;
+        this.from = from;
         this.seen = seen;
         this.time = time;
     }
@@ -48,11 +49,20 @@ public class Messages {
         this.time = time;
     }
 
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
     @Override
     public String toString() {
         return "Messages{" +
                 "message='" + message + '\'' +
                 ", type='" + type + '\'' +
+                ", from='" + from + '\'' +
                 ", seen=" + seen +
                 ", time=" + time +
                 '}';
