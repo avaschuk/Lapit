@@ -2,14 +2,13 @@ package com.andrei.lapitchat;
 
 public class Messages {
 
-    private String message, type, from;
-    private boolean seen;
+    private String message, type, from, seen;
     private long time;
 
     public Messages() {
     }
 
-    public Messages(String message, String type, String from, boolean seen, long time) {
+    public Messages(String message, String type, String from, String seen, long time) {
         this.message = message;
         this.type = type;
         this.from = from;
@@ -33,11 +32,11 @@ public class Messages {
         this.type = type;
     }
 
-    public boolean isSeen() {
+    public String getSeen() {
         return seen;
     }
 
-    public void setSeen(boolean seen) {
+    public void setSeen(String seen) {
         this.seen = seen;
     }
 
