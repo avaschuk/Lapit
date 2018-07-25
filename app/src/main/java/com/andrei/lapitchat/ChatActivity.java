@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +27,7 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,6 +50,12 @@ public class ChatActivity extends AppCompatActivity {
     private ImageButton mChatAddBtn, mChatSendBtn;
     private EditText mChatMessageView;
 
+    private RecyclerView mMessagesList;
+
+    private final ArrayList<Messages> messagesList = new ArrayList<>();
+    private LinearLayoutManager mLinearLayout;
+    private MessageAdapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +63,10 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         init();
+
+        mMessagesList.setAdapter(mAdapter);
+
+        loadMessages();
 
         mRootRef.child("Users").child(mChatUserId).addValueEventListener(new ValueEventListener() {
             @Override
@@ -119,6 +133,41 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    private void loadMessages() {
+
+        mRootRef.child("messages").child(mCurrentUserId).child(mChatUserId).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                Messages message = dataSnapshot.getValue(Messages.class);
+                messagesList.add(message);
+                mAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
     private void init() {
         mChatUserId = getIntent().getStringExtra("user_id");
         mChatUserName = getIntent().getStringExtra("user_name");
@@ -131,6 +180,7 @@ public class ChatActivity extends AppCompatActivity {
         actionBar.setTitle(mChatUserName);
 
         mRootRef = FirebaseDatabase.getInstance().getReference();
+
         mAuth = FirebaseAuth.getInstance();
         mCurrentUserId = mAuth.getCurrentUser().getUid();
 
@@ -146,9 +196,13 @@ public class ChatActivity extends AppCompatActivity {
         mChatMessageView = findViewById(R.id.chat_message_view);
         mChatSendBtn = findViewById(R.id.chat_send_btn);
 
+        mAdapter = new MessageAdapter(this, messagesList);
         mTitleView.setText(mChatUserName);
+        mMessagesList = findViewById(R.id.chat_messages_list);
+        mLinearLayout = new LinearLayoutManager(this);
 
-
+        mMessagesList.setHasFixedSize(true);
+        mMessagesList.setLayoutManager(mLinearLayout);
     }
 
     private void senMessage() {
